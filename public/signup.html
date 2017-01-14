@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sign up - Eventhub</title>
+    <meta charset="utf-8" />
+    <link rel="import" href="imports/firebase.html" />
+  </head>
+  <body>
+    <h1>Sign up - Eventhub</h1>
+    <form id="form">
+      <label>
+        <span>Email</span>
+        <input type="email" name="email" required />
+      </label>
+      <label>
+        <span>Password</span>
+        <input type="password" name="password" required />
+      </label>
+      <button id="submit">Sign up</button>
+    </form>
+
+    <script>
+      var form = document.querySelector("#form");
+
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          console.log("logged in as " + user.email);
+        } else {
+          console.log("not logged in.");
+        }
+      });
+
+      form.onsubmit = function(e) {
+        e.preventDefault();
+
+        console.log("onsubmit");
+
+        var email = form.email.value;
+        var password = form.password.value;
+
+        console.log("trying to create user: ", { email: email, password: password });
+
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+          .catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+
+          console.log(errorCode, errorMessage);
+
+          if (!errorCode && !errorMessage) {
+            window.location = "/";
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

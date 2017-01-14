@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Eventhub</title>
+    <meta charset="utf-8" />
+    <link rel="import" href="imports/firebase.html" />
+  </head>
+  <body>
+    <h1>Eventhub</h1>
+    <a href="login.html" id="loginlink">Log in</a>
+    <a href="signup.html" id="signuplink">Sign up</a>
+    <p>Logged in as <span class="loggedin-email"></span></p>
+
+    <script>
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          console.log("logged in as " + user.email);
+          document.querySelector("#loginlink").style.display = "none";
+        } else {
+          console.log("not logged in.");
+        }
+      });
+    </script>
+  </body>
+</html>
